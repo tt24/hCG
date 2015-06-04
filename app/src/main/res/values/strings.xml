@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HcgGraph</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_drawgraph">Draw Graph</string>
+    <string name="btn_drawnew">Draw New Graph</string>
+    <string name="btn_addgraph">Add Graph</string>
+    <string name="btn_drawcustomgraph">Draw Custom Graph</string>
+</resources>
