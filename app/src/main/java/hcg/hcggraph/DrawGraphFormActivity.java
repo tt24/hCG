@@ -27,12 +27,19 @@ public class DrawGraphFormActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), DrawGraphActivity.class);
                 Bundle extras = new Bundle();
-                extras.putInt("initial", Integer.parseInt(initialDose.getText().toString()));
-                extras.putInt("subsequent", Integer.parseInt(subDose.getText().toString()));
-                extras.putInt("periodicity", Integer.parseInt(periodicity.getText().toString()));
-                extras.putInt("number", Integer.parseInt(number.getText().toString()));
-                i.putExtras(extras);
-                startActivity(i);
+                if(initialDose.getText()!=null) {
+                    extras.putInt("initial", Integer.parseInt(initialDose.getText().toString()));
+                    extras.putInt("subsequent", Integer.parseInt(subDose.getText().toString()));
+                    extras.putInt("periodicity", Integer.parseInt(periodicity.getText().toString()));
+                    extras.putInt("number", Integer.parseInt(number.getText().toString()));
+                    Intent intent = getIntent();
+                    extras.putBoolean("new", intent.getExtras().getBoolean("new"));
+                    i.putExtras(extras);
+                    startActivity(i);
+                }
+                else {
+                    //TODO add checks
+                }
             }
         });
     }

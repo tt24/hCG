@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), DrawGraphFormActivity.class);
+                i.putExtra("new", true);
                 startActivity(i);
 
             }

@@ -1,6 +1,7 @@
 package hcg.hcggraph;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,11 +11,13 @@ import android.widget.Button;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class DrawGraphActivity extends ActionBarActivity {
@@ -35,7 +38,7 @@ public class DrawGraphActivity extends ActionBarActivity {
             hcgC = 1;
             double cMax1 = 0;
             int count = 0;
-            while (hcgC > 0.01) {
+            while (hcgC > 0.08||count<number) {
                 hcgC = cMax * (c + d) * (1 - Math.exp(-(hours - b) / c)) * Math.exp(-(hours - b) / d) / (d * Math.exp(-c * (Math.log(c + d) - Math.log(c)) / d));
                 if (periodicity!=-1&&hours > periodicity && hours % periodicity == 1 && count != number) {
                     count++;
@@ -68,19 +71,50 @@ public class DrawGraphActivity extends ActionBarActivity {
         int subsequent = extras.getInt("subsequent");
         int periodicity = extras.getInt("periodicity");
         int number = extras.getInt("number");
+        boolean newGraph = extras.getBoolean("new");
         DataPoint[] points = write(initial, periodicity, subsequent, number);
+        DataPoint[] points1 = write(10000, 200, 2500, 2);
+        Graphs.addPrevGraphs(points, initial, subsequent);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(points);
         graph.addSeries(series);
+        LegendRenderer lr = graph.getLegendRenderer();
+        series.setTitle("Initial dose: "+ initial+ ", subsequent dose: "+ subsequent);
+        int maxLength = points.length;
+//        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(points1);
+//        Random rnd = new Random();
+//        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+//        series2.setColor(color);
+//        graph.addSeries(series2);
+        LineGraphSeries<DataPoint> series1;
+        System.out.println(newGraph);
+        if(!newGraph) {
+            ArrayList<DataPoint[]> prevPoints = Graphs.getPrevGraphs();
+            System.out.println(prevPoints.size());
+            for(int j = 0; j<Graphs.getPrevGraphs().size()-1; j++) {
+                DataPoint[] p = prevPoints.get(j);
+                if(p.length>maxLength) {
+                    maxLength = p.length;
+                }
+                series1 = new LineGraphSeries<DataPoint>(p);
+                Random rnd = new Random();
+                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                series1.setColor(color);
+                graph.addSeries(series1);
+                series1.setTitle("Initial dose: "+ Graphs.getInitDoses().get(j)+ ", subsequent dose: "+ Graphs.getSubDoses().get(j));
+            }
+        }
+        lr.setVisible(true);
         Viewport view = graph.getViewport();
         view.setXAxisBoundsManual(true);
         view.setMinX(0.0);
-        view.setMaxX(points.length);
+        view.setMaxX(maxLength);
         view.setScrollable(true);
         view.setScalable(true);
+        GraphView gv = new GraphView(this);
         GridLabelRenderer renderer = graph.getGridLabelRenderer();
         renderer.setHorizontalLabelsVisible(true);
-        renderer.setNumHorizontalLabels(points.length / 168);
-        renderer.setHorizontalAxisTitle("Time (weeks)");
+        renderer.setNumHorizontalLabels(12);
+        renderer.setHorizontalAxisTitle("Time (hours)");
         renderer.setVerticalAxisTitle("hCG (IU\\L)");
 
         Button drawNewGraph = (Button) findViewById(R.id.btnDrawNew);
@@ -89,8 +123,23 @@ public class DrawGraphActivity extends ActionBarActivity {
 
             @Override
             public void onClick(View view) {
+                Graphs.clearPrevGraphs();
                 Intent i = new Intent(getApplicationContext(), DrawGraphFormActivity.class);
+                i.putExtra("new", true);
                 startActivity(i);
+            }
+        });
+
+        Button addGraph = (Button) findViewById(R.id.btnAddGraph);
+
+        addGraph.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), DrawGraphFormActivity.class);
+                i.putExtra("new", false);
+                startActivity(i);
+
             }
         });
     }

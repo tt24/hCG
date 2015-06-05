@@ -6,24 +6,26 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
     <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="500dip"
-        android:id="@+id/graph" />
+        android:layout_width="fill_parent"
+        android:layout_height="300pt"
+        android:id="@+id/graph"/>
 
-    <Button android:id="@+id/btnDrawNew"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_drawnew"
         android:layout_below="@id/graph"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="25dip"/>
+        android:weightSum="1.0" >
+        <Button android:id="@+id/btnDrawNew"
+            android:text="@string/btn_drawnew"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50" />
 
-    <Button android:id="@+id/btnAddGraph"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_addgraph"
-        android:layout_below="@id/graph"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="25dip"/>
+        <Button android:id="@+id/btnAddGraph"
+            android:text="@string/btn_addgraph"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50" />
+    </LinearLayout>
 
 </RelativeLayout>
