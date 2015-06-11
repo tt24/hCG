@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <TextView android:layout_width="fill_parent"
+        android:id="@+id/initial_dose_text"
         android:layout_height="wrap_content"
         android:text="Initial dose *"
         android:paddingLeft="10dip"
@@ -15,9 +16,11 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:id="@+id/initial_dose" />
 
     <TextView android:layout_width="fill_parent"
+        android:id="@+id/sub_dose_text"
         android:layout_height="wrap_content"
         android:text="Subsequent dose"
         android:paddingLeft="10dip"
@@ -28,9 +31,11 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:id="@+id/sub_dose" />
 
     <TextView android:layout_width="fill_parent"
+        android:id="@+id/periodicity_text"
         android:layout_height="wrap_content"
         android:text="Periodicity"
         android:paddingLeft="10dip"
@@ -41,9 +46,11 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:id="@+id/periodicity" />
 
     <TextView android:layout_width="fill_parent"
+        android:id="@+id/number_text"
         android:layout_height="wrap_content"
         android:text="Number of subsequent doses"
         android:paddingLeft="10dip"
@@ -54,6 +61,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:id="@+id/number" />
 
     <Button

@@ -17,11 +17,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DrawGraphFormActivity"
+            android:name=".GraphFormActivity"
             android:label="Draw Graph Form" >
         </activity>
         <activity
             android:name=".DrawGraphActivity"
+            android:label="Graph"></activity>
+        <activity
+            android:name=".CustomGraphForm1Activity"
+            android:label="Graph"></activity>
+        <activity
+            android:name=".CustomGraphForm2Activity"
             android:label="Graph" >
         </activity>
     </application>
